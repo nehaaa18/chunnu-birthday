@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday Chunnu 💜</title>
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow: hidden;
+      transition: background 0.4s;
+    }
+
+    body.dark {
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #f1f1f1;
+    }
+
+    .card {
+      background: white;
+      padding: 35px 45px;
+      border-radius: 22px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      animation: pop 0.8s ease;
+      max-width: 360px;
+    }
+
+    body.dark .card {
+      background: #1e1e1e;
+      color: #f1f1f1;
+    }
+
+    h1 {
+      font-size: 2.4rem;
+      margin: 0;
+      color: #6c63ff;
+    }
+
+    body.dark h1 { color: #bb86fc; }
+
+    p {
+      font-size: 1.05rem;
+      margin-top: 10px;
+    }
+
+    .typewriter {
+      margin-top: 14px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #ff4d6d;
+      min-height: 28px;
+    }
+
+    .dark-only {
+      display: none;
+      margin-top: 8px;
+      font-size: 0.95rem;
+      color: #bb86fc;
+    }
+
+    body.dark .dark-only { display: block; }
+
+    /* 🎂 Cake */
+    .cake {
+      position: relative;
+      width: 220px;
+      height: 160px;
+      margin: 26px auto;
+      cursor: pointer;
+      animation: pulse 2s infinite;
+    }
+
+    .layer {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 45px;
+      border-radius: 14px;
+    }
+
+    .layer.one { bottom: 0; background: #ffb703; }
+    .layer.two { bottom: 45px; background: #fb8500; }
+    .layer.three { bottom: 90px; background: #ffb703; }
+
+    .candles {
+      position: absolute;
+      top: -38px;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-evenly;
+    }
+
+    .candle {
+      width: 7px;
+      height: 28px;
+      background: #6c63ff;
+      border-radius: 4px;
+      position: relative;
+    }
+
+    .flame {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: orange;
+      border-radius: 50% 50% 50% 0;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-45deg);
+      animation: flicker 0.15s infinite alternate;
+    }
+
+    @keyframes flicker {
+      from { transform: translateX(-50%) rotate(-45deg) scale(1); }
+      to { transform: translateX(-50%) rotate(-45deg) scale(1.2); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    button {
+      margin-top: 14px;
+      padding: 10px 24px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 30px;
+      background: #6c63ff;
+      color: white;
+      cursor: pointer;
+    }
+
+    body.dark button {
+      background: #bb86fc;
+      color: #000;
+    }
+
+    button:hover { transform: scale(1.05); }
+
+    .end-message {
+      margin-top: 16px;
+      font-size: 1.1rem;
+      opacity: 0;
+      transition: opacity 2s ease;
+      color: #ff4d6d;
+    }
+
+    body.dark .end-message { color: #bb86fc; }
+
+    @keyframes pop {
+      from { transform: scale(0); }
+      to { transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>🎉 Happy Birthday Chunnu 🎉</h1>
+    <p>Mounting <b>BoyfriendApp v26.0</b>…</p>
+
+    <div class="typewriter" id="typewriter"></div>
+    <div class="dark-only">You are my favorite forever 🌙</div>
+
+    <!-- 🎂 Cake -->
+    <div class="cake" id="cake">
+      <div class="candles" id="candles"></div>
+      <div class="layer one"></div>
+      <div class="layer two"></div>
+      <div class="layer three"></div>
+    </div>
+
+    <button onclick="party()">Run Birthday App ▶️</button><br /><br />
+    <button onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
+
+    <div class="end-message" id="endMessage">Still choosing you. Always.</div>
+  </div>
+
+  <audio id="song">
+    <source src="birthday.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    console.log('BoyfriendApp loaded ❤️');
+
+    // 💌 Typewriter
+    const text = 'I love you ❤️';
+    let i = 0;
+    (function typeWriter() {
+      if (i < text.length) {
+        document.getElementById('typewriter').textContent += text.charAt(i++);
+        setTimeout(typeWriter, 120);
+      }
+    })();
+
+    // 🎂 Candles based on age
+    const age = 26;
+    const candles = document.getElementById('candles');
+    for (let i = 0; i < age; i++) {
+      const c = document.createElement('div');
+      c.className = 'candle';
+      c.innerHTML = '<div class="flame"></div>';
+      candles.appendChild(c);
+    }
+
+    // 🎂 Blow candles on click
+    document.getElementById('cake').addEventListener('click', () => {
+      document.querySelectorAll('.flame').forEach(f => f.remove());
+      softenMoment();
+    });
+
+    function softenMoment() {
+      const song = document.getElementById('song');
+      const msg = document.getElementById('endMessage');
+
+      if (song) {
+        let vol = song.volume || 1;
+        const fade = setInterval(() => {
+          if (vol > 0.3) {
+            vol -= 0.05;
+            song.volume = vol;
+          } else clearInterval(fade);
+        }, 200);
+      }
+      setTimeout(() => msg.style.opacity = 1, 800);
+    }
+
+    function party() {
+      const song = document.getElementById('song');
+      if (song) song.play();
+    }
+
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark');
+    }
+  </script>
+
+</body>
+</html>
